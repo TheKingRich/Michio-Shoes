@@ -1,40 +1,61 @@
-// Mengambil semua paragraf di dalam class .sepatua
-const paragraphs = document.querySelectorAll('.sepatua p');
+const cari = document.querySelectorAll('.sepatua p');
 
-paragraphs.forEach((p) => {
-  const fullText = p.innerHTML;
-  const charLimit = 200; // Kita perpendek limitnya agar tampilan kartu tetap rapi
+for ( let i = 0; i < cari.length; i++ ){
 
-  if (fullText.length > charLimit) {
-    // Memotong teks pada spasi terakhir sebelum limit agar kata tidak terputus
-    const shortText = fullText.substring(0, fullText.lastIndexOf(' ', charLimit));
-    const hiddenText = fullText.substring(shortText.length);
+  const pisahkan = cari[i].innerHTML;
 
-    // Set tampilan awal
-    p.innerHTML = `${shortText}<span class="dots">...</span><span class="more-text" style="display:none">${hiddenText}</span>`;
+  const jumlahkarakter = 300;
 
-    // Membuat tombol secara dinamis
-    const btn = document.createElement('button');
-    btn.innerHTML = 'Read More';
-    btn.className = 'read-more'; // Class ini sudah kita desain di style.css tadi
-    btn.style.marginTop = '15px';
-    btn.style.display = 'block';
+  if ( pisahkan.length > jumlahkarakter) {
 
-    p.after(btn); // Menaruh tombol setelah paragraf agar tidak mengganggu teks
+  const treadless = pisahkan.substr(0, jumlahkarakter);
 
-    btn.onclick = function() {
-      const moreText = p.querySelector('.more-text');
-      const dots = p.querySelector('.dots');
+  const treadless1 = treadless.substr(0, treadless.lastIndexOf(" ") + 1);
 
-      if (moreText.style.display === 'none') {
-        moreText.style.display = 'inline';
-        dots.style.display = 'none';
-        this.innerHTML = 'Read Less';
-      } else {
-        moreText.style.display = 'none';
-        dots.style.display = 'inline';
-        this.innerHTML = 'Read More';
-      }
-    };
-  }
-});
+  const readmore = pisahkan.substr(treadless1.length, pisahkan.length);
+
+  cari[i].innerHTML = treadless1;
+
+
+
+  const createtombol = document.createElement('button');
+
+  const kata = document.createTextNode('Readmore');
+
+  createtombol.appendChild(kata);
+
+  createtombol.setAttribute('class', 'read-more');
+
+  cari[i].append(createtombol);
+
+
+
+
+
+  createtombol.onclick = function(){
+
+    if ( this.className.indexOf('read-more') > -1) {
+
+          cari[i].innerHTML = treadless1 + readmore;
+
+           this.innerText = "Readless";
+
+           this.classList.remove('read-more');
+
+          }else {
+
+           cari[i].innerHTML = treadless;
+
+           this.innerText = "Readmore";
+
+           this.classList.add('read-more');
+
+         }
+
+         cari[i].append(this);
+
+         };
+
+}
+
+}
