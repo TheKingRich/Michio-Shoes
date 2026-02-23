@@ -1,11 +1,12 @@
+/* 1. Global Setup & Variables */
 :root {
   --primary: #2563eb;
   --dark: #0f172a;
   --accent: #fbbf24;
   --white: #ffffff;
-  --text-gray: #64748b;
+  --text-light: #94a3b8;
   --gradient: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-  --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -21,22 +22,25 @@ body {
   color: var(--dark);
   background-color: #f8fafc;
   line-height: 1.6;
-  overflow-x: hidden; /* Mencegah layar goyang ke samping */
+  overflow-x: hidden;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
-/* --- HEADER FIX --- */
+/* 2. Header & Navigasi (Sangat Penting) */
 header {
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
-  z-index: 9999; /* Pastikan selalu di atas jumbotron */
+  z-index: 9999;
+  height: 80px;
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
@@ -44,22 +48,31 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
+  width: 100%;
 }
 
 .logo {
-  font-family: 'Poppins';
-  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
   font-size: 24px;
   color: var(--dark);
-  z-index: 10001; /* Logo tetap terlihat saat menu HP buka */
 }
 
 .logo span { color: var(--primary); }
 
+/* Tombol Hamburger */
 #chk { display: none; }
+.show-menu-btn, .hide-menu-btn {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--dark);
+}
 
-.menu { display: flex; gap: 30px; }
+.menu {
+  display: flex;
+  gap: 32px;
+}
 
 .menu a {
   color: var(--dark);
@@ -70,136 +83,125 @@ header {
 
 .menu a:hover { color: var(--primary); }
 
-/* Tombol Hamburger */
-.show-menu-btn, .hide-menu-btn {
-  display: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-/* --- JUMBOTRON FIX (Gambar 1 Laptop) --- */
+/* 3. Jumbotron (Laptop Fix) */
 #jumbotron {
   background: var(--gradient);
-  padding: 80px 0;
-  color: var(--white);
-  position: relative;
-  min-height: 500px;
+  min-height: 85vh;
   display: flex;
   align-items: center;
+  color: white;
+  padding: 60px 0;
 }
 
 .bungkus-jumbotron {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr; /* Teks lebih lebar sedikit dari gambar */
+  grid-template-columns: 1.1fr 0.9fr; /* Membagi kaku 2 kolom */
   align-items: center;
-  gap: 40px;
-}
-
-.jumbotron-text {
-  position: relative;
-  z-index: 10; /* Di atas dekorasi background */
+  gap: 60px;
 }
 
 .jumbotron-text h1 {
-  font-size: clamp(32px, 5vw, 56px); /* Ukuran dinamis sesuai layar */
-  font-family: 'Poppins';
+  font-size: clamp(32px, 5vw, 56px);
   line-height: 1.1;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .jumbotron-text h1 span { color: var(--accent); }
 
-.jumbotron-image {
-  position: relative;
-  display: flex;
-  justify-content: center;
+.jumbotron-text p {
+  font-size: 18px;
+  color: #cbd5e1;
+  margin-bottom: 30px;
+  max-width: 500px;
 }
 
 .jumbotron-image img {
   width: 100%;
-  max-width: 450px; /* Batasi agar tidak menabrak teks di laptop */
-  border-radius: 30px;
+  max-width: 500px;
+  border-radius: 40px;
   box-shadow: var(--shadow);
-  border: 10px solid rgba(255,255,255,0.1);
+  border: 8px solid rgba(255,255,255,0.1);
 }
 
-/* Bulatan background di belakang gambar */
-.circle-bg {
-  position: absolute;
-  width: 120%;
-  height: 120%;
-  background: var(--primary);
-  filter: blur(80px);
-  opacity: 0.2;
-  top: -10%;
-  z-index: 1;
+/* 4. Product Cards (Desktop Grid) */
+.product-container { padding: 100px 0; }
+
+.product-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  background: white;
+  padding: 50px;
+  border-radius: 40px;
+  box-shadow: var(--shadow);
+  margin-bottom: 60px;
+  align-items: center;
 }
 
-/* --- RESPONSIVE MOBILE FIX (Gambar 2 HP) --- */
+.product-card.reverse { direction: rtl; }
+.product-card.reverse .sepatua { direction: ltr; }
+
+.product-img-wrapper img {
+  width: 100%;
+  border-radius: 24px;
+}
+
+/* 5. Responsive Mobile (Sesuai Gambar Anda) */
 @media (max-width: 968px) {
-  .show-menu-btn { 
-    display: block; 
-    color: var(--dark);
-  }
+  .show-menu-btn { display: block; }
 
+  /* Full Screen Mobile Menu */
   .menu {
     position: fixed;
     width: 100%;
     height: 100vh;
-    background: var(--dark); /* Biru gelap solid agar tidak tembus pandang */
-    top: -100%; /* Sembunyi di atas */
+    background: var(--dark); /* Background gelap solid */
+    top: -100%; /* Sembunyi ke atas */
     left: 0;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: 0.5s ease-in-out;
+    transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 10000;
-    gap: 40px;
   }
 
   #chk:checked ~ nav .menu {
-    top: 0; /* Geser turun saat klik */
+    top: 0; /* Muncul ke bawah */
   }
 
   .hide-menu-btn {
     display: block;
     position: absolute;
-    top: 25px;
-    right: 25px;
-    color: var(--white);
+    top: 30px;
+    right: 30px;
+    color: white;
   }
 
   .menu a {
-    color: var(--white);
-    font-size: 24px;
+    color: white;
+    font-size: 26px;
     font-weight: 700;
   }
 
-  /* Layout Konten HP */
+  /* Konten Layout Mobile */
   .bungkus-jumbotron {
-    grid-template-columns: 1fr; /* Jadi satu kolom */
+    grid-template-columns: 1fr;
     text-align: center;
   }
 
   .jumbotron-image {
-    order: -1; /* Gambar naik ke atas teks di HP */
-    margin-bottom: 30px;
+    order: -1; /* Gambar sepatu di atas judul di HP */
+    margin-bottom: 40px;
   }
 
-  .jumbotron-image img {
-    max-width: 280px; /* Perkecil sedikit di HP agar proporsional */
-  }
+  .jumbotron-text p { margin: 0 auto 30px; }
 
   .product-card {
     grid-template-columns: 1fr;
-    padding: 20px;
-  }
-  
-  .product-card.reverse {
-    direction: ltr; /* Matikan fitur reverse di HP agar tidak aneh */
+    padding: 30px;
+    gap: 30px;
   }
 
-  .team-grid {
-    grid-template-columns: 1fr;
-  }
+  .product-card.reverse { direction: ltr; }
 }
