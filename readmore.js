@@ -1,43 +1,40 @@
-// Mengambil semua paragraf di dalam info produk
-const cari = document.querySelectorAll('.product-info p');
+// Mengambil semua paragraf di dalam class .sepatua
+const paragraphs = document.querySelectorAll('.sepatua p');
 
-for (let i = 0; i < cari.length; i++) {
-    const pisahkan = cari[i].innerHTML;
-    const jumlahkarakter = 200; // Dikurangi sedikit agar lebih rapi di kartu produk
+paragraphs.forEach((p) => {
+  const fullText = p.innerHTML;
+  const charLimit = 200; // Kita perpendek limitnya agar tampilan kartu tetap rapi
 
-    if (pisahkan.length > jumlahkarakter) {
-        const treadless = pisahkan.substr(0, jumlahkarakter);
-        const treadless1 = treadless.substr(0, treadless.lastIndexOf(" ") + 1);
-        const readmore = pisahkan.substr(treadless1.length, pisahkan.length);
-        
-        // Set tampilan awal (teks terpotong)
-        cari[i].innerHTML = treadless1;
+  if (fullText.length > charLimit) {
+    // Memotong teks pada spasi terakhir sebelum limit agar kata tidak terputus
+    const shortText = fullText.substring(0, fullText.lastIndexOf(' ', charLimit));
+    const hiddenText = fullText.substring(shortText.length);
 
-        // Membuat tombol dengan class yang sudah kita buat di CSS
-        const createtombol = document.createElement('button');
-        createtombol.innerText = 'Read More';
-        createtombol.setAttribute('class', 'read-more-btn'); 
-        
-        // Styling tambahan via JS agar pas di posisi teks
-        createtombol.style.marginLeft = "5px";
-        createtombol.style.display = "inline-block";
-        
-        cari[i].append(createtombol);
+    // Set tampilan awal
+    p.innerHTML = `${shortText}<span class="dots">...</span><span class="more-text" style="display:none">${hiddenText}</span>`;
 
-        createtombol.onclick = function() {
-            // Jika saat ini sedang menampilkan teks pendek
-            if (this.innerText === "Read More") {
-                cari[i].innerHTML = treadless1 + readmore;
-                this.innerText = "Read Less";
-                this.classList.remove('read-more'); // Menghindari konflik logic lama
-            } else {
-                // Jika sedang menampilkan teks lengkap
-                cari[i].innerHTML = treadless1;
-                this.innerText = "Read More";
-                this.classList.add('read-more');
-            }
-            // Tempelkan kembali tombolnya ke dalam paragraf
-            cari[i].append(this);
-        };
-    }
-}
+    // Membuat tombol secara dinamis
+    const btn = document.createElement('button');
+    btn.innerHTML = 'Read More';
+    btn.className = 'read-more'; // Class ini sudah kita desain di style.css tadi
+    btn.style.marginTop = '15px';
+    btn.style.display = 'block';
+
+    p.after(btn); // Menaruh tombol setelah paragraf agar tidak mengganggu teks
+
+    btn.onclick = function() {
+      const moreText = p.querySelector('.more-text');
+      const dots = p.querySelector('.dots');
+
+      if (moreText.style.display === 'none') {
+        moreText.style.display = 'inline';
+        dots.style.display = 'none';
+        this.innerHTML = 'Read Less';
+      } else {
+        moreText.style.display = 'none';
+        dots.style.display = 'inline';
+        this.innerHTML = 'Read More';
+      }
+    };
+  }
+});
